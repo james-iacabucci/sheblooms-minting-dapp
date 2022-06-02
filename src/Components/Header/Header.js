@@ -69,7 +69,7 @@ export default function Header({values, data, signOut, setError, processing, set
                 <Chip variant="outlined" color="primary" label={`${account?.substring(0,4).toUpperCase()}....${account?.slice(-4).toUpperCase()}`}/>
               </Tooltip>
               <Chip variant="outlined" color="primary" label={data?.formatted} sx={{ display: { xs: 'none', md: 'flex' }}} />
-              {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()}>Disconnect</Button>}
+              {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()} sx={{ display: { xs: 'none', md: 'flex' }}} >Disconnect</Button>}
             </Stack>
           }
         </Toolbar>
