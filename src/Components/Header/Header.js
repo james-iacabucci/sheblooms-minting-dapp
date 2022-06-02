@@ -66,10 +66,10 @@ export default function Header({values, data, signOut, setError, processing, set
             <Stack spacing={1} direction="row" alignItems={"center"} sx={{ marginLeft: "auto"}}>
               <Chip variant="outlined" color="primary" label={chain?.name} sx={{ display: { xs: 'none', md: 'flex'}}}/>
               <Tooltip title={account ? account : "..."}>
-                <Chip variant="outlined" color="primary" label={`${account?.substring(0,4).toUpperCase()}....${account?.slice(-4).toUpperCase()}`}/>
+                <Chip variant="outlined" color="primary" label={`${account?.substring(0,4).toUpperCase()}....${account?.slice(-4).toUpperCase()}`} sx={{ display: { xs: 'none', md: 'flex' }}}/>
               </Tooltip>
               <Chip variant="outlined" color="primary" label={data?.formatted} sx={{ display: { xs: 'none', md: 'flex' }}} />
-              {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()} sx={{ display: { xs: 'none', md: 'flex' }}} >Disconnect</Button>}
+              {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()} >Disconnect</Button>}
             </Stack>
           }
         </Toolbar>

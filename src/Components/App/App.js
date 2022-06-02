@@ -404,18 +404,18 @@ async function initWallet() {
             {!processing && isPurchaseEnabled() && !error && !transactionCompleted && 
               <CardContent>
                 <Grid container spacing={2}>
-                  <Grid item xs={4}>
+                  <Grid item xs={4} >
                     <ButtonGroup variant="contained">
                       <Button variant="contained" sx={{ color: 'white'}} fullWidth onClick={() => decrementMintAmount()}>-</Button>
                       <Button variant="contained" sx={{ color: 'white'}} fullWidth>{`${mintAmount}`}</Button>
                       <Button variant="contained" sx={{ color: 'white'}} fullWidth onClick={() => incrementMintAmount()}>+</Button>
                     </ButtonGroup>
                   </Grid>
-                  <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <Typography mt={0.5} variant="body2" fontSize={"1rem"} fontWeight={'bold'} color="primary">
+                  <Grid item xs={4} >
+                    <Typography mt={0.5} variant="body2" align='center' fontSize={"1rem"} fontWeight={'bold'} color="primary">
                       {`${mintCost} ETH`}
                     </Typography>
-                    <Typography mt={-0.5} fontSize={10}>
+                    <Typography mt={-0.5} align='center' fontSize={10}>
                       (plus gas)
                     </Typography>
                   </Grid>
