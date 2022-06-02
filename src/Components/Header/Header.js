@@ -64,11 +64,11 @@ export default function Header({values, data, signOut, setError, processing, set
           <img src={logo} alt="logo" style={{width: "200px"}}/>
           {account && isAuthenticated && 
             <Stack spacing={1} direction="row" alignItems={"center"} sx={{ marginLeft: "auto"}}>
-              <Chip variant="outlined" color="primary" label={chain?.name}/>
+              <Chip variant="outlined" color="primary" label={chain?.name} sx={{ display: { xs: 'none', md: 'flex'}}}/>
               <Tooltip title={account ? account : "..."}>
                 <Chip variant="outlined" color="primary" label={`${account?.substring(0,4).toUpperCase()}....${account?.slice(-4).toUpperCase()}`}/>
               </Tooltip>
-              <Chip variant="outlined" color="primary" label={data?.formatted}/>
+              <Chip variant="outlined" color="primary" label={data?.formatted} sx={{ display: { xs: 'none', md: 'flex' }}} />
               {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()}>Disconnect</Button>}
             </Stack>
           }
