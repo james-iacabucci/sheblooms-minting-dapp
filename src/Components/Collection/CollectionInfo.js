@@ -8,7 +8,7 @@ export default function CollectionInfo({values}) {
 
       <Grid item xs={6}>
         <Typography variant="body2">
-          Collection Status
+          Sale Type
         </Typography>
       </Grid>
       <Grid item xs={6}>
@@ -24,11 +24,16 @@ export default function CollectionInfo({values}) {
         </Grid>
       <Grid item xs={6}>
         <Typography variant="body2" align="right" color="primary" >
-          {values.isMintingPaused ? "Closed"
-            : values.isWhitelistMintEnabled 
-            ? values.isUserInWhitelist ? "Approved" : "Not Approved"
-            : "Open"
-          }
+         {(values.maxSupply === values.totalSupply) 
+            ? "Sold Out" 
+            : values.isMintingPaused 
+              ? "Closed" 
+              : !(values.isFreelistMintEnabled || values.isGoldlistMintEnabled) 
+                ? "Open" 
+                : (values.isFreelistMintEnabled && values.isUserInFreelist) || (values.isGoldlistMintEnabled && values.isUserInGoldlist) 
+                  ? "Approved" 
+                  : "Not Approved"
+         }
         </Typography>
       </Grid>
 

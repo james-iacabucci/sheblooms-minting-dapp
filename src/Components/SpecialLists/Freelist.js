@@ -1,14 +1,14 @@
-import whitelistAddresses from '../../Config/whitelist.json';
+import freelistAddresses from '../../Config/freelist.json';
 import { MerkleTree } from 'merkletreejs';
 import keccak256 from 'keccak256';
 
-export default new class Whitelist {
+export default new class Freelist {
   merkleTree
 
   getMerkleTree()
   {
     if (this.merkleTree === undefined) {
-      const leafNodes = whitelistAddresses.map(addr => keccak256(addr));
+      const leafNodes = freelistAddresses.map(addr => keccak256(addr));
       this.merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
     }
     return this.merkleTree;

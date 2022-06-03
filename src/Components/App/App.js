@@ -18,7 +18,8 @@ import Header from './../Header/Header';
 import CollectionInfo from './../Collection/CollectionInfo';
 import './App.css';
 
-import Whitelist from './../Whitelist/Whitelist';
+import Freelist from './../SpecialLists/Freelist';
+import Goldlist from './../SpecialLists/Goldlist';
 const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
 //const stakingContractAbi = require('../../Config/SheBloomsStaking.json').abi;
 
@@ -33,13 +34,15 @@ const defaultState = {
   maxMintAmountPerTx: 0,
   tokenPrice: BigNumber.from(0),
   isMintingPaused: null,
-  isWhitelistMintEnabled: false,
-  isUserInWhitelist: false,
+  isFreelistMintEnabled: false,
+  isGoldlistMintEnabled: false,
+  isPreSaleMintEnabled: false,
+  isUserInFreelist: false,
+  isUserInGoldlist: false,
   nftWallet: [],
   //isStakingPaused: null,
   //stakingWallet: [],
   earnings: 0,
-  saleStatus: null,
   saleStage: null,
   merkleProofManualAddress: '', 
   merkleProofManualAddressFeedbackMessage: null,
@@ -145,7 +148,9 @@ async function initWallet() {
     let maxMintAmountPerTx = 0;
     let cost = 0;
     let isMintingPaused = true;
-    let isWhitelistMintEnabled = false;
+    let isFreelistMintEnabled = false;
+    let isGoldlistMintEnabled = false;
+    let isPreSaleMintEnabled = false;
     let nftWallet = null;
 
     // COLLECTION PROPERTIES
@@ -156,7 +161,9 @@ async function initWallet() {
       maxMintAmountPerTx = (await Moralis.executeFunction({...nftContractOptions,  functionName: 'maxMintAmountPerTx' }))?.toNumber();
       cost = await Moralis.executeFunction({...nftContractOptions,  functionName: 'cost' });
       isMintingPaused = await Moralis.executeFunction({...nftContractOptions,  functionName: 'paused' });
-      isWhitelistMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'whitelistMintEnabled' });
+      isFreelistMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'freeListMintEnabled' });
+      isGoldlistMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'goldListMintEnabled' });
+      isPreSaleMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'preSaleMintEnabled' });
       nftWallet = await Moralis.executeFunction({...nftContractOptions, params: { _owner: account }, functionName: 'walletOfOwner' });
     } 
     catch(e) {
@@ -180,10 +187,12 @@ async function initWallet() {
       maxMintAmountPerTx: maxMintAmountPerTx,
       tokenPrice: cost,
       isMintingPaused: isMintingPaused,
-      saleStage: isWhitelistMintEnabled ? "Gold List Only" : "Public Sale",
-      saleStatus: isMintingPaused ? "Closed" : "Open",  
-      isWhitelistMintEnabled: isWhitelistMintEnabled,
-      isUserInWhitelist: Whitelist.contains(account ?? ''),
+      saleStage: isFreelistMintEnabled ? "Free List Only" : isGoldlistMintEnabled ? "Gold List Only" : isPreSaleMintEnabled ? "Pre Sale" : "Public Sale",
+      isFreelistMintEnabled: isFreelistMintEnabled,
+      isGoldlistMintEnabled: isGoldlistMintEnabled,
+      isPreSaleMintEnabled: isPreSaleMintEnabled,
+      isUserInFreelist: Freelist.contains(account ?? ''),
+      isUserInGoldlist: Goldlist.contains(account ?? ''),
       nftWallet: nftWallet,
       //isStakingPaused: isStakingPaused,
       //stakingWallet: stakingWallet,
@@ -198,9 +207,11 @@ async function initWallet() {
   async function mintTokens(amount) {
     try {
       let tx;
-      values.isWhitelistMintEnabled
-        ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Whitelist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'whitelistMint' })
-        : tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount }, msgValue: values.tokenPrice.mul(amount), functionName: 'mint' }); 
+      values.isFreelistMintEnabled
+        ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Freelist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'freeListMint' })
+        : values.isGoldlistMintEnabled
+          ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Goldlist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'goldListMint' })
+          : tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount }, msgValue: values.tokenPrice.mul(amount), functionName: 'mint' }); 
       setTransaction(tx.hash);
       setTransactionCompleted(false)
       setProcessing(true);
@@ -215,6 +226,7 @@ async function initWallet() {
     }
   }
 
+  /*
   async function whitelistMintTokens(amount) {
     try {
       //const tx = await this.contract.whitelistMint(amount, Whitelist.getProofForAddress(this.state.userAddress!), {value: this.state.tokenPrice.mul(amount)});
@@ -230,6 +242,7 @@ async function initWallet() {
       setProcessing(false);
     }
   }
+  */
 
   function incrementMintAmount() {
     setMintAmount(Math.min(values.maxMintAmountPerTx, mintAmount + 1));
@@ -249,11 +262,14 @@ async function initWallet() {
   }
 
   function getErrorText() {
-    if (error.message.includes('Address already claimed!')) {
-      return "Your wallet address has already claimed and minted its Gold List NFT"
+    if (error.message.includes('Your address has already claimed')) {
+      return `Your wallet address has already claimed and minted its ${values.saleStage} NFT`
     }
-    if (error.message.includes('Invalid proof!')) {
+    if (error.message.includes('This is an invalid')) {
       return "Your wallet address is not approved for Gold List minting."
+    }
+    if (error.message.includes('maximum supply')) {
+      return "There are not enough NFTs left to complete your purchase."
     }
 
     switch(error.code) {
@@ -347,7 +363,7 @@ async function initWallet() {
               <>
                 <CardContent mt={2}>
                   <Stack spacing={2}>
-                    <Typography variant="h5" fontWeight='bold' align='center'>Something Went Wrong!</Typography> 
+                    <Typography variant="h5" color='primary' fontWeight='bold' align='center'>Something Went Wrong!</Typography> 
                     <Typography variant="body2" align='center'>{getErrorText()}</Typography> 
                   </Stack>
                 </CardContent>
@@ -369,7 +385,7 @@ async function initWallet() {
             {processing && transaction && !transactionCompleted &&
               <CardContent mt={2}>
                 <Stack spacing={2}>
-                  <Typography variant="h5" fontWeight='bold' align='center' >Processing Your Transaction</Typography>
+                  <Typography variant="h5" color='primary' fontWeight='bold' align='center' >Processing Your Transaction</Typography>
                   <Typography variant="body2" textAlign={'center'} >Your transaction has been submitted to the Ethereum Network and is waiting to be confirmed!</Typography>
                   <Typography variant="body2" textAlign={'center'} >Your screen will automatically be refreshed when the transaction is completed. This may take up to 5 minutes to complete, so please be patient.</Typography>
                   <Chip sx={{ fontSize: 9 }} label={transaction}/>
@@ -382,7 +398,7 @@ async function initWallet() {
             {!processing && transactionCompleted && 
               <CardContent mt={2}>
                 <Stack spacing={2}>
-                  <Typography variant="h5" fontWeight='bold' align='center' >Congratulations!</Typography>
+                  <Typography variant="h5" color='primary' fontWeight='bold' align='center' >Congratulations!</Typography>
                   <Typography variant="body2" textAlign={'center'} >You transaction has been confirmed!</Typography>
                   <Chip variant="outlined" sx={{ fontSize: 9 }} label={transaction}/>
                   <Button variant="outlined" fullWidth size="small" onClick={() => openInNewTab(`https://${isTestNet() ? "rinkeby." : ""}etherscan.io/tx/${transaction}`)}>View your transaction on EtherScan</Button>
@@ -439,7 +455,7 @@ async function initWallet() {
           {!processing && isSoldOut() && contractFound &&
             <MessageCard>
               <Typography variant="body2" color='primary' align='center'>Thank you for your support!</Typography>
-              <Typography variant="body2" color='primary' align='center'>Our current sale is sold out, but please come back for out next sale!</Typography>
+              <Typography variant="body2" color='primary' align='center'>Our current sale is sold out, but please come back for our next sale!</Typography>
             </MessageCard>
           }   
 

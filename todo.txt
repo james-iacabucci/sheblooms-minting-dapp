@@ -12,7 +12,8 @@ WALLET CONNECTED
 CONTRACT
 - add events/emit
 - update payment addresses
-- limit purchases per wallet in each stage?
+- limit total purchase per wallet (so they don't just keep minting)
+- return gold and free list claimed info
 - allow payment address to be changed, or have withdrawl requrire an address
 - keep track of goldlist (claimed already)
 - keep track of freelist (addr or owning NFT) (claimed already)
