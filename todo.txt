@@ -1,9 +1,5 @@
 
 WALLET CONNECTED
-- Gold List functions
-- Free Mint functions
-- if not on gold list, show messsage and disable purchase
-- if not on free list, show messsage and disable purchase
 - if not on mainnet, disable purchasing (unless in releaseMode=testing)
 - Add T&C before purchase (checkbox ahead of time to enable buy button)
 - add countdown if not open yet (website minting date, or set in contract)
@@ -55,6 +51,10 @@ TESTING
 - handle insufficient funds transaction
 - handle cancelled transaction (reject)
 - hide collection info and show message if contract not found or web3 not accessible (moralis error)
+- Gold List ability to mint token only if on list
+- Free Mint ablity to mint tokens for free (only if on list)
+- if not on gold list, show messsage and error on purchase
+- if not on free list, show messsage and error on purchase
 
 RELEASE
 - tune for mobile
