@@ -3,6 +3,7 @@ WALLET CONNECTED
 - if not on mainnet, disable purchasing (unless in releaseMode=testing)
 - Add T&C before purchase (checkbox ahead of time to enable buy button)
 - add countdown if not open yet (website minting date, or set in contract)
+- view NFTs on opensea (or browse in minting site)
 
 
 CONTRACT

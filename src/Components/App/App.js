@@ -8,16 +8,17 @@ import { Typography, Divider, Button, Chip, ButtonGroup, Box} from '@mui/materia
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
+import ConfettiExplosion from 'react-confetti-explosion';
+
 import { BigNumber } from 'ethers'
 import { useMoralis, useNativeBalance, useChain } from "react-moralis";
 
-import CollectionConfig from '../../Config/CollectionConfig';
+import './App.css';
+import Header from './../Header/Header';
 import background from "../../assets/background4.png";
 import logo from "../../assets/Logos/SB_Full_White_Padding.png";
-import Header from './../Header/Header';
+import CollectionConfig from '../../Config/CollectionConfig';
 import CollectionInfo from './../Collection/CollectionInfo';
-import './App.css';
-
 import Freelist from './../SpecialLists/Freelist';
 import Goldlist from './../SpecialLists/Goldlist';
 const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
@@ -331,9 +332,9 @@ async function initWallet() {
         }}
       >
       <Container fixed={true} maxWidth="xs">
-        <Stack spacing={2}> 
+        <Stack spacing={2} sx={{ overflow: 'visible' }}> 
           
-          <Card raised={true}>
+          <Card raised={true} sx={{ overflow: 'visible' }}>
 
             <CardMedia component="img" image={logo} alt="She Blooms" sx={{backgroundColor: "black" }}/>
 
@@ -395,8 +396,10 @@ async function initWallet() {
               </CardContent>
             }
 
+
             {!processing && transactionCompleted && 
-              <CardContent mt={2}>
+              <CardContent mt={2} sx={{ overflow: 'visible' }}>
+                <ConfettiExplosion />
                 <Stack spacing={2}>
                   <Typography variant="h5" color='primary' fontWeight='bold' align='center' >Congratulations!</Typography>
                   <Typography variant="body2" textAlign={'center'} >You transaction has been confirmed!</Typography>
@@ -465,11 +468,12 @@ async function initWallet() {
               <Typography variant="body2" color='orange' align='center'>Please connect to continue...</Typography>
             </MessageCard>
           }       
- 
+
         </Stack>
       </Container>
     </div>
   </Container>
+    
 
   );
 }
