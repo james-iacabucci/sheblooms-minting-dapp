@@ -1,41 +1,43 @@
+TODAY 
+- screen shots of all use cases, testing needed, etc in word doc 
+- links to doc and repos 
+- ask about max ownable, backup IPFS vs changable 
 
 WALLET CONNECTED
-- if not on mainnet, disable purchasing (unless in releaseMode=testing)
+- add test/prod mode & change messaging / disable to not on test or not on main
+    - if in test, allow setting of sale date (so countdown can read it) 
+- test/tune for mobile
+- test different wallets
+- Add nice welcome message with link to instructions metamask / ETH fiat 
 - Add T&C before purchase (checkbox ahead of time to enable buy button)
-- add countdown if not open yet (website minting date, or set in contract)
-- view NFTs on opensea (or browse in minting site)
-
+- add link to shebloomsnft.io, copywrite, help links (email or discord or ?), refresh page as first step
 
 CONTRACT
+- test automation
 - add events/emit
-- update payment addresses
-- limit total purchase per wallet (so they don't just keep minting)
-- return gold and free list claimed info
-- allow payment address to be changed, or have withdrawl requrire an address
-- keep track of goldlist (claimed already)
-- keep track of freelist (addr or owning NFT) (claimed already)
-- rename things 
-- add status for sale not started yet (countdown / coming soon)
+- allow payment address (or addresses) to be changed, or have withdrawl requrire an address
 - add multiple owners (add, remove) and change onlyOwner
-- allow change of uri in case something goes wrong (or pinata fails), contract setting for mutiple IPFS with immutable content at launch
-- allow withdrawl to another address in case something goes wrong
+- allow change of uri in case something goes wrong (or pinata fails)
+- contract setting for mutiple IPFS with immutable content at launch
+- return addresses of all current owners with balances (enumerable?)
+- return list of all free / gold list claimers (enumberable?)
+- investigate staking (duration of ownership, locked vs transferred)
+
+- add provenenace hash or token hash to guarantee image/metadata
 - earn by owning / commitment to not sell (locked for x days)
-- return addresses of all current owners with balances
+- use charm bracelet for free and gold list?
 
 HOSTING
-- add to appsync and publish
+- aws appsync vs pages (plus cloudflare et al)
 
 HANDLE ERRORS
 - reverted transaction  
-- add messagebox for users to get help (email or discord or ?)
-
-WALLET NOT CONNECTED
-- Add nice welcome message with link to instructions
 
 COLLECTION ART 
-- 
+- layer/trait names and rarity
 
 TESTING 
+- should we spend the $ to do a test on MainNet (with different images/contract names)?
 - transfer testing scripts from contract and dapp to our project
 - not enough funds disables purchase
 - sold out disables purchase and shows message
@@ -43,7 +45,7 @@ TESTING
 - no wallet, nice message and link to setup wallet
 - show balance when wallet connected, hide when not
 - if not enough funds, show message 
-- if sold out, show message and disable purchase
+- if sold out, show message and disable purchase and show view on open sea 
 - no metamask installed
 - mobile purchase and responsive design
 - when processing message / view on etherscan for purchase
@@ -56,18 +58,15 @@ TESTING
 - Free Mint ablity to mint tokens for free (only if on list)
 - if not on gold list, show messsage and error on purchase
 - if not on free list, show messsage and error on purchase
+- limit total goldlist purchases (claimed already)
+- limit total freelist purchases (claimed already)
+- if contract address owner, show admin toolbar with all functions 
 
 RELEASE
-- tune for mobile
-- add user help/support contact info to site (card under main card - like not eth network message)
-- turn on transaction sync on Moralis and ensure we're capurting all tx (even those that fail)
+- turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
 - read Hashlips discord for issues (and search Google)
 - update env to prod
-- update contract addresses and ABIs
 - upload images to 2 IPFS systems as a backup with a contract toggle on which to use
-
-Admin connected
-- show admin toolbar with all functions
 
 Next up...
 cool cats

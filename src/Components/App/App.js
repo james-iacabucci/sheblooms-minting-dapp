@@ -263,15 +263,12 @@ async function initWallet() {
   }
 
   function getErrorText() {
-    if (error.message.includes('Your address has already claimed')) {
+    if (error.message.includes('Your address has already claimed')) 
       return `Your wallet address has already claimed and minted its ${values.saleStage} NFT`
-    }
-    if (error.message.includes('This is an invalid')) {
+    if (error.message.includes('This is an invalid')) 
       return "Your wallet address is not approved for Gold List minting."
-    }
-    if (error.message.includes('maximum supply')) {
+    if (error.message.includes('maximum supply')) 
       return "There are not enough NFTs left to complete your purchase."
-    }
 
     switch(error.code) {
       case "INSUFFICIENT_FUNDS": return "Your wallet does not have enough ETH to complete this purchase."
@@ -459,6 +456,7 @@ async function initWallet() {
             <MessageCard>
               <Typography variant="body2" color='primary' align='center'>Thank you for your support!</Typography>
               <Typography variant="body2" color='primary' align='center'>Our current sale is sold out, but please come back for our next sale!</Typography>
+              <Button variant="contained" fullWidth sx={{ mt: 2}} onClick={() => openInNewTab(`https://${isTestNet() ? "testnets." : ""}${CollectionConfig.openSeaURL}`)}>Buy She Blooms on OpenSea</Button>
             </MessageCard>
           }   
 
