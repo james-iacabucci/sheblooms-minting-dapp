@@ -15,7 +15,6 @@ import Freelist from './../SpecialLists/Freelist';
 import Goldlist from './../SpecialLists/Goldlist';
 import { BigNumber } from 'ethers'
 import { useMoralis, useNativeBalance, useChain } from "react-moralis";
-const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
 //const stakingContractAbi = require('../../Config/SheBloomsStaking.json').abi;
 
 // DAPP COMPONENTS
@@ -24,6 +23,8 @@ import background from "../../assets/background4.png";
 import logo from "../../assets/Logos/SB_Full_White_Padding.png";
 import CollectionConfig from '../../Config/CollectionConfig';
 import CollectionInfo from './../Collection/CollectionInfo';
+
+const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
 
 const defaultState = {
   userAddress: null,
@@ -44,6 +45,7 @@ const defaultState = {
   nftWallet: [],
   //isStakingPaused: null,
   //stakingWallet: [],
+  isReleased: false,
   earnings: 0,
   saleStage: null,
   merkleProofManualAddress: '', 
@@ -153,6 +155,7 @@ async function initWallet() {
     let isGoldlistMintEnabled = false;
     let isPreSaleMintEnabled = false;
     let nftWallet = null;
+    let isReleased = false;
 
     // COLLECTION PROPERTIES
     try {
@@ -165,6 +168,7 @@ async function initWallet() {
       isFreelistMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'freeListMintEnabled' });
       isGoldlistMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'goldListMintEnabled' });
       isPreSaleMintEnabled = await Moralis.executeFunction({...nftContractOptions,  functionName: 'preSaleMintEnabled' });
+      isReleased = await Moralis.executeFunction({...nftContractOptions,  functionName: 'released' });
       nftWallet = await Moralis.executeFunction({...nftContractOptions, params: { _owner: account }, functionName: 'walletOfOwner' });
     } 
     catch(e) {
@@ -194,6 +198,7 @@ async function initWallet() {
       isPreSaleMintEnabled: isPreSaleMintEnabled,
       isUserInFreelist: Freelist.contains(account ?? ''),
       isUserInGoldlist: Goldlist.contains(account ?? ''),
+      isReleased: isReleased,
       nftWallet: nftWallet,
       //isStakingPaused: isStakingPaused,
       //stakingWallet: stakingWallet,
@@ -285,7 +290,7 @@ async function initWallet() {
   const isSoldOut = () => values.maxSupply !== 0 && values.totalSupply >= values.maxSupply;
   const isMainNet = () => chainId === "0x1";
   const isTestNet = () => chainId === "0x4"; 
-  const isPurchaseEnabled = () => isWalletConnected() && !isSoldOut() && !values.isMintingPaused && contractFound;
+  const isPurchaseEnabled = () => isWalletConnected() && !isSoldOut() && !values.isMintingPaused && contractFound && ((values.isReleased && isMainNet()) || (!values.isReleased && !isMainNet()));
 
   function MessageCard(props) {
     return (
@@ -436,7 +441,7 @@ async function initWallet() {
                     </Typography>
                   </Grid>
                   <Grid item xs={4}>
-                    <Button fullWidth variant='contained' sx={{ color: 'white'}} disabled={values.isMintingPaused} onClick={() => mintTokens(mintAmount)} endIcon={<ArrowForwardIcon />}>Mint</Button>
+                    <Button fullWidth variant='contained' sx={{ color: 'white'}} onClick={() => mintTokens(mintAmount)} endIcon={<ArrowForwardIcon />}>Mint</Button>
                   </Grid>
                 </Grid>
               </CardContent>
@@ -460,7 +465,14 @@ async function initWallet() {
             </MessageCard>
           }   
 
-          {!processing && !isMainNet() && 
+          {!processing && !values.isReleased && isMainNet() && 
+            <MessageCard>
+              <Typography variant="body2" color='orange' align='center'>You are not connected to the Ethereum TestNet.</Typography>
+              <Typography variant="body2" color='orange' align='center'>Please connect to continue...</Typography>
+            </MessageCard>
+          }       
+
+          {!processing && values.isReleased && !isMainNet() && 
             <MessageCard>
               <Typography variant="body2" color='orange' align='center'>You are not connected to the Ethereum MainNet.</Typography>
               <Typography variant="body2" color='orange' align='center'>Please connect to continue...</Typography>
