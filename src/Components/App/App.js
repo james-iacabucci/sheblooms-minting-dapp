@@ -1,28 +1,29 @@
+// REACT LIBRARIES 
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
+// UI LIBRARIES
 import { Container, Grid, Stack } from '@mui/material';
 import { Card, CardMedia, CardContent, CardActions } from '@mui/material';
 import { LinearProgress } from '@mui/material/';
 import { Typography, Divider, Button, Chip, ButtonGroup, Box} from '@mui/material/';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
 import ConfettiExplosion from 'react-confetti-explosion';
 
+// WEB3 LIBRARIES
+import Freelist from './../SpecialLists/Freelist';
+import Goldlist from './../SpecialLists/Goldlist';
 import { BigNumber } from 'ethers'
 import { useMoralis, useNativeBalance, useChain } from "react-moralis";
+const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
+//const stakingContractAbi = require('../../Config/SheBloomsStaking.json').abi;
 
-import './App.css';
+// DAPP COMPONENTS
 import Header from './../Header/Header';
 import background from "../../assets/background4.png";
 import logo from "../../assets/Logos/SB_Full_White_Padding.png";
 import CollectionConfig from '../../Config/CollectionConfig';
 import CollectionInfo from './../Collection/CollectionInfo';
-import Freelist from './../SpecialLists/Freelist';
-import Goldlist from './../SpecialLists/Goldlist';
-const nftContractAbi = require('../../Config/SheBloomsCollection.json').abi;
-//const stakingContractAbi = require('../../Config/SheBloomsStaking.json').abi;
 
 const defaultState = {
   userAddress: null,
@@ -85,8 +86,7 @@ function App() {
     setValues(() => defaultState)
   }
 
-  // Retrieve Staking Rewards
-  /*
+  /*  Retrieve Staking Rewards
   useEffect(() => {
     setInterval(async () => {
       try {

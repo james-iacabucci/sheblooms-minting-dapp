@@ -21,9 +21,8 @@ CONTRACT
 - contract setting for mutiple IPFS with immutable content at launch
 - return addresses of all current owners with balances (enumerable?)
 - return list of all free / gold list claimers (enumberable?)
-- investigate staking (duration of ownership, locked vs transferred)
 
-- add provenenace hash or token hash to guarantee image/metadata
+- investigate staking (duration of ownership, locked vs transferred)
 - earn by owning / commitment to not sell (locked for x days)
 - use charm bracelet for free and gold list?
 
