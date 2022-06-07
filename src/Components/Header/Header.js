@@ -5,15 +5,21 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
 
 import { useMoralis, useChain } from "react-moralis";
 import logo from "../../assets/Logos/SB_Simple_White.png";
+import CollectionConfig from '../../Config/CollectionConfig';
 
-export default function Header({values, data, signOut, setError, processing, setProcessing, nftContractOptions, stakingContractOptions}) {
+export default function Header({values, data, signOut, setError, isTestNet, processing, setProcessing, nftContractOptions, stakingContractOptions}) {
   
   const { isAuthenticated, Moralis, account } = useMoralis();
   const { chain } = useChain();
+
+  function openInNewTab(url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   async function setCollectionPaused(newState) {
     try {
@@ -61,7 +67,9 @@ export default function Header({values, data, signOut, setError, processing, set
     <>
       <AppBar position="fixed" elevation={2} sx={{ backgroundColor : 'black'}}>
         <Toolbar>
-          <img src={logo} alt="logo" style={{width: "200px"}}/>
+          <Link sx={{ cursor: 'pointer' }} onClick={() => openInNewTab("https://shebloomsnft.io")}>
+            <img src={logo} alt="logo" style={{width: "200px"}}/>
+          </Link>
           {account && isAuthenticated && 
             <Stack spacing={1} direction="row" alignItems={"center"} sx={{ marginLeft: "auto"}}>
               <Chip variant="outlined" color="primary" label={chain?.name} sx={{ display: { xs: 'none', md: 'flex'}}}/>
@@ -79,9 +87,10 @@ export default function Header({values, data, signOut, setError, processing, set
       {!processing && isAuthenticated && account && (values.ownerAddress === values.userAddress) && 
         <AppBar position="fixed" elevation={2} sx={{ top: 'auto', bottom: 0, backgroundColor : 'white'}}>
           <Toolbar sx={{ backgroundColor: 'white'}}>  
-            <Stack spacing={1} direction="row">
+            <Stack spacing={1} direction="row">  
               <Button size='small' variant='contained' sx={{ color: 'white'}} onClick={() => setCollectionPaused((values.isMintingPaused ? false : true))}>{values.isMintingPaused ? "Resume Minting" : "Pause Minting"}</Button>
               <Button size='small' variant='contained' sx={{ color: 'white'}} onClick={() => withdrawFunds()}>Withdraw Funds</Button>
+              <Button size='small' variant='contained' sx={{ color: 'white'}} onClick={() => openInNewTab(`https://${isTestNet() ? "rinkeby." : ""}etherscan.io/address/${nftContractOptions.contractAddress}`)}>View Contract</Button>
               {/* <Button size='small' variant='contained' sx={{ color: 'white'}} onClick={() => setStakingPaused((values.isStakingPaused ? false : true))}>{values.isStakingPaused ? "Resume Staking" : "Pause Staking"}</Button> */}
             </Stack>
           </Toolbar> 

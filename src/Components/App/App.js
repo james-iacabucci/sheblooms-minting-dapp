@@ -318,6 +318,7 @@ async function initWallet() {
         values={values}
         data={data}
         signOut={signOut} 
+        isTestNet={isTestNet}
         setError={setError}
         processing={processing}
         setProcessing={setProcessing}

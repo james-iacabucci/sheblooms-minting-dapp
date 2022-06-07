@@ -13,7 +13,7 @@ export default function CollectionInfo({values}) {
       </Grid>
       <Grid item xs={6}>
         <Typography variant="body2" align="right" color="primary">
-          {values.saleStage}
+          {`${values.saleStage} ${ !values.isReleased ? "(Test)" : "" }`}
         </Typography>
       </Grid>
 

@@ -1,11 +1,14 @@
 TODAY 
 - screen shots of all use cases, testing needed, etc in word doc 
-- links to doc and repos 
+- links to doc and repos
+- list of todos
 - ask about max ownable, backup IPFS vs changable 
 
 WALLET CONNECTED
+
 - add test/prod mode & change messaging / disable to not on test or not on main
     - if in test, allow setting of sale date (so countdown can read it) 
+
 - test/tune for mobile
 - test different wallets
 - Add nice welcome message with link to instructions metamask / ETH fiat 
@@ -27,13 +30,33 @@ CONTRACT
 - use charm bracelet for free and gold list?
 
 HOSTING
-- aws appsync vs pages (plus cloudflare et al)
+- configure minting.shebloomsnft.io to route to  
+- AWS appsync vs pages (plus cloudflare et al)
+-- https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html
+- GITHUB
+-- setup SSL 
+-- setup Cloudflare https://blog.cloudflare.com/secure-and-fast-github-pages-with-cloudflare/
 
 HANDLE ERRORS
 - reverted transaction  
 
 COLLECTION ART 
 - layer/trait names and rarity
+
+RELEASE
+- turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
+- read Hashlips discord for issues (and search Google)
+- update env to prod
+- upload images to 2 IPFS systems as a backup with a contract toggle on which to use
+
+Next up...
+cool cats
+- change to mainnet in header (see cool cats)
+- browse collection
+- browse your nfts
+show steps for staking (approve then stake)
+
+
 
 TESTING 
 - should we spend the $ to do a test on MainNet (with different images/contract names)?
@@ -61,18 +84,6 @@ TESTING
 - limit total freelist purchases (claimed already)
 - if contract address owner, show admin toolbar with all functions 
 
-RELEASE
-- turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
-- read Hashlips discord for issues (and search Google)
-- update env to prod
-- upload images to 2 IPFS systems as a backup with a contract toggle on which to use
-
-Next up...
-cool cats
-- change to mainnet in header (see cool cats)
-- browse collection
-- browse your nfts
-show steps for staking (approve then stake)
 
 
 
