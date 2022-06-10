@@ -2,28 +2,23 @@ TODAY
 - screen shots of all use cases, testing needed, etc in word doc 
 - links to doc and repos
 - list of todos
-- ask about max ownable, backup IPFS vs changable 
+- ask about max owned, backup IPFS vs changable 
 
 WALLET CONNECTED
-
-- add test/prod mode & change messaging / disable to not on test or not on main
-    - if in test, allow setting of sale date (so countdown can read it) 
-
 - test/tune for mobile
 - test different wallets
 - Add nice welcome message with link to instructions metamask / ETH fiat 
 - Add T&C before purchase (checkbox ahead of time to enable buy button)
 - add link to shebloomsnft.io, copywrite, help links (email or discord or ?), refresh page as first step
+- if in test, allow setting of sale date (so countdown can read it) 
 
 CONTRACT
-- test automation
 - add events/emit
 - allow payment address (or addresses) to be changed, or have withdrawl requrire an address
 - add multiple owners (add, remove) and change onlyOwner
-- allow change of uri in case something goes wrong (or pinata fails)
-- contract setting for mutiple IPFS with immutable content at launch
 - return addresses of all current owners with balances (enumerable?)
 - return list of all free / gold list claimers (enumberable?)
+- test automation
 
 - investigate staking (duration of ownership, locked vs transferred)
 - earn by owning / commitment to not sell (locked for x days)
@@ -44,6 +39,7 @@ COLLECTION ART
 - layer/trait names and rarity
 
 RELEASE
+- setup production Morais and Infura accounts
 - turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
 - read Hashlips discord for issues (and search Google)
 - update env to prod
@@ -83,8 +79,8 @@ TESTING
 - limit total goldlist purchases (claimed already)
 - limit total freelist purchases (claimed already)
 - if contract address owner, show admin toolbar with all functions 
-
-
+- add test/prod mode & change messaging / disable to not on test or not on main
+- allow change of uri in case something goes wrong (or pinata fails)
 
 
 
