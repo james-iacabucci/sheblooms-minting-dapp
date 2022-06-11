@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/sheblooms-minting-dapp/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/sheblooms-minting-dapp/static/js/main.b1be312d.chunk.js",
-    "main.js.map": "/sheblooms-minting-dapp/static/js/main.b1be312d.chunk.js.map",
-    "runtime-main.js": "/sheblooms-minting-dapp/static/js/runtime-main.ea78b73c.js",
-    "runtime-main.js.map": "/sheblooms-minting-dapp/static/js/runtime-main.ea78b73c.js.map",
-    "static/js/2.a70fda49.chunk.js": "/sheblooms-minting-dapp/static/js/2.a70fda49.chunk.js",
-    "static/js/2.a70fda49.chunk.js.map": "/sheblooms-minting-dapp/static/js/2.a70fda49.chunk.js.map",
-    "index.html": "/sheblooms-minting-dapp/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/sheblooms-minting-dapp/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.a70fda49.chunk.js.LICENSE.txt": "/sheblooms-minting-dapp/static/js/2.a70fda49.chunk.js.LICENSE.txt",
-    "static/media/SB_Full_White_Padding.0db5cf59.png": "/sheblooms-minting-dapp/static/media/SB_Full_White_Padding.0db5cf59.png",
-    "static/media/SB_Simple_White.9893d585.png": "/sheblooms-minting-dapp/static/media/SB_Simple_White.9893d585.png",
-    "static/media/background4.178a6036.png": "/sheblooms-minting-dapp/static/media/background4.178a6036.png"
+    "main.css": "/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/static/js/main.28fa6224.chunk.js",
+    "main.js.map": "/static/js/main.28fa6224.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.93ecf365.js",
+    "runtime-main.js.map": "/static/js/runtime-main.93ecf365.js.map",
+    "static/js/2.4322279d.chunk.js": "/static/js/2.4322279d.chunk.js",
+    "static/js/2.4322279d.chunk.js.map": "/static/js/2.4322279d.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.4322279d.chunk.js.LICENSE.txt": "/static/js/2.4322279d.chunk.js.LICENSE.txt",
+    "static/media/SB_Full_White_Padding.0db5cf59.png": "/static/media/SB_Full_White_Padding.0db5cf59.png",
+    "static/media/SB_Simple_White.9893d585.png": "/static/media/SB_Simple_White.9893d585.png",
+    "static/media/background4.178a6036.png": "/static/media/background4.178a6036.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.ea78b73c.js",
-    "static/js/2.a70fda49.chunk.js",
+    "static/js/runtime-main.93ecf365.js",
+    "static/js/2.4322279d.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.b1be312d.chunk.js"
+    "static/js/main.28fa6224.chunk.js"
   ]
 }
