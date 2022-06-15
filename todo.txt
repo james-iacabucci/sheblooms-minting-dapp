@@ -1,8 +1,5 @@
-TODAY 
-- screen shots of all use cases, testing needed, etc in word doc 
-- links to doc and repos
-- list of todos
-- ask about max owned, backup IPFS vs changable 
+ADMIN 
+- submit artifacts to Ben and team (screen shots, testing needed, repos, todos) 
 
 WALLET CONNECTED
 - test/tune for mobile
@@ -11,26 +8,30 @@ WALLET CONNECTED
 - Add T&C before purchase (checkbox ahead of time to enable buy button)
 - add link to shebloomsnft.io, copywrite, help links (email or discord or ?), refresh page as first step
 - if in test, allow setting of sale date (so countdown can read it) 
+- add auto refresh when events are emitted 
+- add drop down on wallet address (balance, disconnect, etherscan, etc)
+- turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
+- restructure so same base project can be used for all projects (move to env? have "projects" shared config with env setting?)
 
 CONTRACT
-- add events/emit
+- add events/emit 
 - allow payment address (or addresses) to be changed, or have withdrawl requrire an address
 - add multiple owners (add, remove) and change onlyOwner
+- add royalty info (std, opensea, rarable)
 - return addresses of all current owners with balances (enumerable?)
 - return list of all free / gold list claimers (enumberable?)
+- get frozen metadata working
+- add metadata to contract for OpenSea and others to read (collection level info)
 - test automation
+- limit max owned?
 
 - investigate staking (duration of ownership, locked vs transferred)
 - earn by owning / commitment to not sell (locked for x days)
 - use charm bracelet for free and gold list?
 
 HOSTING
-- configure minting.shebloomsnft.io to route to  
-- AWS appsync vs pages (plus cloudflare et al)
--- https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html
-- GITHUB
--- setup SSL 
--- setup Cloudflare https://blog.cloudflare.com/secure-and-fast-github-pages-with-cloudflare/
+- test AWS Hosting (https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html)
+- GITHUB (is Cloudflare needed? https://blog.cloudflare.com/secure-and-fast-github-pages-with-cloudflare/)
 
 HANDLE ERRORS
 - reverted transaction  
@@ -40,12 +41,12 @@ COLLECTION ART
 
 RELEASE
 - setup production Morais and Infura accounts
-- turn on transaction sync on Moralis and ensure we're capturing all tx (even those that fail)
 - read Hashlips discord for issues (and search Google)
 - update env to prod
-- upload images to 2 IPFS systems as a backup with a contract toggle on which to use
 
-Next up...
+
+
+NEXT STEPS
 cool cats
 - change to mainnet in header (see cool cats)
 - browse collection
