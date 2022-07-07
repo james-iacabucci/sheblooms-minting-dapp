@@ -12,7 +12,7 @@ import { useMoralis, useChain } from "react-moralis";
 import logo from "../../assets/Logos/SB_Simple_White.png";
 import CollectionConfig from '../../Config/CollectionConfig';
 
-export default function Header({values, data, signOut, setError, isTestNet, processing, setProcessing, nftContractOptions, stakingContractOptions}) {
+export default function Header({values, userWallet, signOut, setError, isTestNet, processing, setProcessing, nftContractOptions, stakingContractOptions}) {
   
   const { isAuthenticated, Moralis, account } = useMoralis();
   const { chain } = useChain();
@@ -76,7 +76,7 @@ export default function Header({values, data, signOut, setError, isTestNet, proc
               <Tooltip title={account ? account : "..."}>
                 <Chip variant="outlined" color="primary" label={`${account?.substring(0,4).toUpperCase()}....${account?.slice(-4).toUpperCase()}`} sx={{ display: { xs: 'none', sm: 'flex' }}}/>
               </Tooltip>
-              <Chip variant="outlined" color="primary" label={data?.formatted} sx={{ display: { xs: 'none', sm: 'flex' }}} />
+              <Chip variant="outlined" color="primary" label={userWallet?.formatted} sx={{ display: { xs: 'none', sm: 'flex' }}} />
               {isAuthenticated && <Button variant="contained" size="small" onClick={() => signOut()} >Disconnect</Button>}
             </Stack>
           }

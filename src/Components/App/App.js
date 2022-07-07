@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Container, Grid, Stack } from '@mui/material';
 import { Card, CardMedia, CardContent, CardActions } from '@mui/material';
 import { LinearProgress } from '@mui/material/';
-import { Typography, Divider, Button, Chip, ButtonGroup, Box} from '@mui/material/';
+import { Typography, Divider, Button, Chip, ButtonGroup, Box} from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ConfettiExplosion from 'react-confetti-explosion';
 
@@ -19,7 +19,7 @@ import { useMoralis, useNativeBalance, useChain } from "react-moralis";
 
 // DAPP COMPONENTS
 import Header from './../Header/Header';
-import background from "../../assets/background4.png";
+import background from "../../assets/background3.png";
 import logo from "../../assets/Logos/SB_Full_White_Padding.png";
 import CollectionConfig from '../../Config/CollectionConfig';
 import CollectionInfo from './../Collection/CollectionInfo';
@@ -55,7 +55,7 @@ const defaultState = {
 function App() {  
 
   const { chainId } = useChain();
-  const { data } = useNativeBalance()
+  const { data: userWallet } = useNativeBalance()
   const [ error, setError ] = useState('');
   const [ mintAmount, setMintAmount ] = useState(1);
   const [ values, setValues ] = useState(defaultState);
@@ -186,7 +186,6 @@ async function initWallet() {
       ...prevValues,
       userAddress: account.toUpperCase(),
       ownerAddress: owner.toUpperCase(),
-      userBalance: data?.balance,
       maxSupply: maxSupply,
       totalSupply: totalSupply,
       maxMintAmountPerTx: maxMintAmountPerTx,
@@ -216,8 +215,8 @@ async function initWallet() {
       values.isFreelistMintEnabled
         ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Freelist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'freeListMint' })
         : values.isGoldlistMintEnabled
-          ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Goldlist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'goldListMint' })
-          : tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount }, msgValue: values.tokenPrice.mul(amount), functionName: 'mint' }); 
+        ? tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Goldlist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'goldListMint' })
+        : tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount }, msgValue: values.tokenPrice.mul(amount), functionName: 'mint' }); 
       setTransaction(tx.hash);
       setTransactionCompleted(false)
       setProcessing(true);
@@ -226,29 +225,11 @@ async function initWallet() {
       setTransactionCompleted(true);
     } 
     catch (e) {
-      console.error(e)
+      console.error(e.data)
       setError(e);
       setProcessing(false);
     }
   }
-
-  /*
-  async function whitelistMintTokens(amount) {
-    try {
-      //const tx = await this.contract.whitelistMint(amount, Whitelist.getProofForAddress(this.state.userAddress!), {value: this.state.tokenPrice.mul(amount)});
-      const tx = await Moralis.executeFunction({...nftContractOptions, params: { _mintAmount: amount, _merkleProof: Whitelist.getProofForAddress(account) }, msgValue: values.tokenPrice.mul(amount), functionName: 'whitelistMint' }); 
-      setTransaction(tx.hash);
-      setTransactionCompleted(false)
-      setProcessing(true);
-      await tx.wait();
-      setProcessing(false);
-      setTransactionCompleted(true);
-    } catch (e) {
-      setError(e);
-      setProcessing(false);
-    }
-  }
-  */
 
   function incrementMintAmount() {
     setMintAmount(Math.min(values.maxMintAmountPerTx, mintAmount + 1));
@@ -267,25 +248,25 @@ async function initWallet() {
     await initWallet();
   }
 
-  function getErrorText() {
+  function getErrorMessage() {
     if (error.message.includes('Your address has already claimed')) 
       return `Your wallet address has already claimed and minted its ${values.saleStage} NFT`
     if (error.message.includes('This is an invalid')) 
-      return "Your wallet address is not approved for Gold List minting."
-    if (error.message.includes('maximum supply')) 
-      return "There are not enough NFTs left to complete your purchase."
+      return "Your wallet address is not on the approved list."
+    if (error.message.includes('This purchase exceeds')) 
+      return "Your purchase cannot be completed. It exceeds the maximum number of NFTs for this sale."
 
     switch(error.code) {
       case "INSUFFICIENT_FUNDS": return "Your wallet does not have enough ETH to complete this purchase."
       case 4001: return "This transaction has been canceled at your request."
       case 32603: return error.message
-      default: return `An error has occurred while processing your transaction (${error.code})`
+      default: return `An error has occurred while processing your transaction (${error.message})`
     }
   }
 
   //const isNothingStaked = values.stakingWallet?.length === 0;
   //const isNothingOwned = values.nftWallet?.length === 0;
-  const mintCost = Moralis.Units.FromWei(values.tokenPrice, 18) * mintAmount;
+  const mintCost = () => Moralis.Units.FromWei(values.tokenPrice, 18) * mintAmount;
   const isWalletConnected = () => (account !== null) && isAuthenticated;
   const isSoldOut = () => values.maxSupply !== 0 && values.totalSupply >= values.maxSupply;
   const isMainNet = () => chainId === "0x1";
@@ -316,8 +297,8 @@ async function initWallet() {
     <Container disableGutters maxWidth="false" >
       <Header 
         values={values}
-        data={data}
         signOut={signOut} 
+        userWallet={userWallet}
         isTestNet={isTestNet}
         setError={setError}
         processing={processing}
@@ -335,6 +316,7 @@ async function initWallet() {
         }}
       >
       <Container fixed={true} maxWidth="xs">
+
         <Stack spacing={2} sx={{ overflow: 'visible' }}> 
           
           <Card raised={true} sx={{ overflow: 'visible' }}>
@@ -368,7 +350,7 @@ async function initWallet() {
                 <CardContent mt={2}>
                   <Stack spacing={2}>
                     <Typography variant="h5" color='primary' fontWeight='bold' align='center'>Something Went Wrong!</Typography> 
-                    <Typography variant="body2" align='center'>{getErrorText()}</Typography> 
+                    <Typography variant="body2" align='center'>{getErrorMessage()}</Typography> 
                   </Stack>
                 </CardContent>
                 <CardActions>
@@ -398,7 +380,6 @@ async function initWallet() {
                 </Stack>
               </CardContent>
             }
-
 
             {!processing && transactionCompleted && 
               <CardContent mt={2} sx={{ overflow: 'visible' }}>
@@ -435,7 +416,7 @@ async function initWallet() {
                   </Grid>
                   <Grid item xs={4} >
                     <Typography mt={0.5} variant="body2" align='center' fontSize={"1rem"} fontWeight={'bold'} color="primary">
-                      {`${mintCost} ETH`}
+                      {`${mintCost()} ETH`}
                     </Typography>
                     <Typography mt={-0.5} align='center' fontSize={10}>
                       (plus gas)

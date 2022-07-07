@@ -24,10 +24,11 @@ CONTRACT
 - add promoter tracking (owned, paid, enable/disable)
 - add reward claimed feature 
 - test changing IPFS location
-- allow payment address (or addresses) to be changed, or have withdrawl requrire an address
+- allow payment address (or addresses) to be changed, or have withdrawl requrire an address (remove other payees)
 - add multiple owners (add, remove) and change onlyOwner
 - add royalty info (std, opensea, rarable)
 - return addresses of all current owners with balances (enumerable?)
+- make function to set all sale params at once
 - return list of all free / gold list claimers (enumberable?)
 - get frozen metadata working
 - add metadata to contract for OpenSea and others to read (collection level info)
